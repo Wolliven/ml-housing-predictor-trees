@@ -1,4 +1,3 @@
-```md
 # ML Housing Price Predictor – Tree Models
 
 A structured machine learning project focused on learning and evaluating tree-based regression models through a disciplined, reproducible training workflow.
@@ -125,7 +124,7 @@ ml-housing-predictor-trees/
 ├── README.md
 └── .gitignore
 
-````
+```
 
 ---
 
@@ -156,7 +155,7 @@ Install dependencies:
 
 ```bash
 pip install -r requirements.txt
-````
+```
 
 ---
 
