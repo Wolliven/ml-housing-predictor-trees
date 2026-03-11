@@ -6,10 +6,7 @@ The `predict` function loads a trained model, takes input data in JSON or CSV fo
 """
 import json
 import logging
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import cross_val_score, GridSearchCV
-from sklearn.linear_model import LinearRegression, Ridge
+from sklearn.model_selection import cross_val_score
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 import pandas as pd
@@ -17,11 +14,11 @@ import pickle as pkl
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
-# def add_features(X : pd.DataFrame) -> pd.DataFrame:
-#     X["households"] = X["Population"] / X["AveOccup"]
-#     X["people_per_bedroom"] = X["AveOccup"] / X["AveBedrms"]
-#     X["bedrooms_per_room"] = X["AveBedrms"] / X["AveRooms"]
-#     return X
+def add_features(X : pd.DataFrame) -> pd.DataFrame:
+    X["households"] = X["Population"] / X["AveOccup"]
+    X["people_per_bedroom"] = X["AveOccup"] / X["AveBedrms"]
+    X["bedrooms_per_room"] = X["AveBedrms"] / X["AveRooms"]
+    return X
 
 def load_dataset(data_csv : str) -> tuple[pd.DataFrame, pd.Series]:
     df = pd.read_csv(data_csv)
@@ -107,13 +104,8 @@ def train_model(data_csv : str, model_path : str = "model.pkl") -> dict:
         "features" : X.columns.tolist()
     }
 
-    print(f"Decision Tree Results:")
-    print(f"Mean R² score: {result['tree']['mean']:.4f}±{result['tree']['std']:.4f}")
-    print(f"Random Forest Results:")
-    print(f"Mean R² score: {result['forest']['mean']:.4f}±{result['forest']['std']:.4f}")
-
-    # with open(model_path, "wb") as f:
-    #     pkl.dump(result, f)
+    with open(model_path, "wb") as f:
+        pkl.dump(result, f)
 
     return result
 
