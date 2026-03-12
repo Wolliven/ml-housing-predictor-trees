@@ -8,6 +8,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import pickle as pkl
 from ml_engine import load_dataset, build_models, add_features
+from sklearn.tree import plot_tree
 
 #Baseline model evaluation using cross-validation predictions
 X, y = load_dataset("data/california_housing.csv")
@@ -82,4 +83,21 @@ def analyze_tree(X : pd.DataFrame, y : pd.Series) -> None:
     plt.legend()
     plt.savefig("reports/tree_depth_experiment.png", dpi=300)
 
-analyze_tree(X, y)
+#analyze_tree(X, y)
+
+def visualize_tree() -> None:
+    tree = build_models(tree_depth=3, random_state=42).get("decision_tree")
+    tree.fit(X, y)
+    plt.figure(figsize=(16,10))
+
+    plot_tree(
+        tree,
+        feature_names=X.columns,
+        filled=True,
+        rounded=True,
+        impurity=False,
+    )
+
+    plt.savefig("reports/tree_visualization_depth_3.png", dpi=300)
+
+visualize_tree()
