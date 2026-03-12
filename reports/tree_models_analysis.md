@@ -77,8 +77,74 @@ The optimal region for this dataset appears to be around **depth 6–8**, which 
 
 These findings confirm that controlling tree complexity is critical when using single decision trees, as unrestricted trees can easily grow large and memorize training data rather than learning generalizable patterns.
 
-### 3.2 Tree Visualization
-(tree diagram)
+
+### 3.2 Decision Tree Visualization
+
+To better understand how the model makes predictions, a shallow decision tree with `max_depth = 3` was trained and visualized. Limiting the depth allows the learned rules to remain interpretable.
+
+![Decision tree visualization](tree_visualization_depth_3.png)
+
+#### Root Split
+
+The root node splits on **MedInc (median income)**:
+
+MedInc ≤ 5.035
+
+This indicates that median income is the **most important variable** for predicting house prices in the dataset. The tree first separates districts with lower income levels from those with higher income levels.
+
+Districts with higher median income are predicted to have significantly higher house values, which aligns with economic intuition.
+
+#### Lower Income Branch
+
+For districts with `MedInc ≤ 5.035`, the tree further splits on:
+
+MedInc ≤ 3.074
+
+This creates a separation between **very low income areas** and **moderate income areas**.
+
+For the lowest income group, the model then considers **AveRooms (average number of rooms per household)**:
+
+AveRooms ≤ 4.314
+
+Districts with fewer rooms tend to have lower predicted house prices.
+
+For the moderate income group, the tree instead splits on **AveOccup (average household occupancy)**:
+
+AveOccup ≤ 2.373
+
+Higher household occupancy may indicate denser living conditions, which tends to correlate with lower housing prices.
+
+#### Higher Income Branch
+
+For districts with `MedInc > 5.035`, the tree again uses income to refine predictions:
+
+
+MedInc ≤ 6.82
+
+
+This suggests that income continues to be the strongest predictor even among higher income areas.
+
+In this region, the tree also considers **AveOccup**, separating districts based on population density characteristics.
+
+Finally, for the highest income districts (`MedInc > 6.82`), another income-based split appears:
+
+MedInc ≤ 7.815
+
+This branch leads to the highest predicted house values in the dataset.
+
+#### Interpretation
+
+Several important patterns emerge from this visualization:
+
+- **Median income dominates the decision process**, appearing at multiple levels of the tree.
+- Secondary features such as **average rooms and household occupancy** help refine predictions within income groups.
+- The tree essentially segments the dataset into different **socioeconomic tiers**, using income as the primary signal and housing characteristics as secondary refinements.
+
+This confirms that income is the most influential variable in the California Housing dataset, while other features contribute additional contextual information.
+
+The visualization also illustrates why decision trees are considered **interpretable models**: the prediction process can be expressed as a sequence of simple, human-readable rules.
+
+---
 
 ## 4. Random Forest Analysis
 
