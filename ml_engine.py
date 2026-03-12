@@ -34,9 +34,9 @@ def load_dataset(data_csv : str) -> tuple[pd.DataFrame, pd.Series]:
     y = df["MedHouseVal"]
     return X, y
 
-def build_models(random_state: int = 42) -> dict:
+def build_models(random_state: int = 42, tree_depth : int=5) -> dict:
     model_tree = DecisionTreeRegressor(
-        max_depth=5,
+        max_depth=tree_depth,
         random_state=random_state
     )
 

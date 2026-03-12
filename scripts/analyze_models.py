@@ -1,10 +1,11 @@
 from numpy import sqrt
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import cross_val_predict, GridSearchCV
+from sklearn.model_selection import cross_val_predict, GridSearchCV, cross_val_score
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 from sklearn.linear_model import LinearRegression, Ridge
 import pandas as pd
+import matplotlib.pyplot as plt
 import pickle as pkl
 from ml_engine import load_dataset, build_models, add_features
 
@@ -55,8 +56,30 @@ def analyze_models(X : pd.DataFrame, y : pd.Series, model_tree, model_forest) ->
     print(y.loc[worst_forest_idx])
 
 #Baseline model evaluation
-analyze_models(X, y, model_tree, model_forest)
+#analyze_models(X, y, model_tree, model_forest)
 
 #Features
-X = add_features(X)
+#X = add_features(X)
 
+def analyze_tree(X : pd.DataFrame, y : pd.Series) -> None:
+    mean_scores = []
+    std_scores = []
+    depths = list(range(1, 31))
+    for depth in depths:
+        tree = build_models(tree_depth=depth).get("decision_tree")
+        scores = cross_val_score(tree, X, y, cv=5, scoring="r2")
+        mean_scores.append(scores.mean())
+        std_scores.append(scores.std())
+    plt.figure(figsize=(8,5))
+
+    plt.plot(depths, mean_scores, label="Mean R²")
+    plt.plot(depths, std_scores, label="Std deviation")
+
+    plt.xlabel("Tree depth")
+    plt.ylabel("Score")
+    plt.title("Decision Tree performance vs depth")
+
+    plt.legend()
+    plt.savefig("reports/tree_depth_experiment.png", dpi=300)
+
+analyze_tree(X, y)
