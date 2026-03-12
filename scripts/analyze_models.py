@@ -100,4 +100,20 @@ def visualize_tree() -> None:
 
     plt.savefig("reports/tree_visualization_depth_3.png", dpi=300)
 
-visualize_tree()
+#visualize_tree()
+
+def analyze_forest(X : pd.DataFrame, y : pd.Series) -> None:
+    forest = build_models(random_state=42).get("random_forest")
+    forest.fit(X, y)
+    importances = forest.feature_importances_
+    feature_importance = pd.Series(importances, index=X.columns).sort_values(ascending=False)
+    plt.figure(figsize=(8,5))
+    feature_importance.plot(kind="bar")
+    plt.title("Feature Importance - Random Forest")
+    plt.xlabel("Features")
+    plt.ylabel("Importance")
+    plt.tight_layout()
+    plt.savefig("reports/forest_feature_importance.png", dpi=300)
+    plt.show()
+
+analyze_forest(X, y)
