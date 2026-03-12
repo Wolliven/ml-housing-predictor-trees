@@ -1,9 +1,6 @@
 from numpy import sqrt
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import cross_val_predict, GridSearchCV, cross_val_score
+from sklearn.model_selection import cross_val_predict, cross_val_score
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
-from sklearn.linear_model import LinearRegression, Ridge
 import pandas as pd
 import matplotlib.pyplot as plt
 import pickle as pkl
