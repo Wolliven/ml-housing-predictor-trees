@@ -1,3 +1,15 @@
+"""
+This script contains functions to analyze the performance of the decision tree and random forest models, including error analysis, feature importance, and visualizations.
+The functions can be called to generate reports and visualizations that help understand the strengths and weaknesses of each model, as well as the importance of different features in the dataset.
+The analysis includes:
+- Baseline model evaluation using cross-validation predictions
+- Error analysis to identify patterns in the prediction errors
+- Experimenting with different tree depths to find the optimal depth for the decision tree model
+- Visualizing the structure of a decision tree
+- Analyzing feature importance in the random forest model
+To run the analysis, simply execute this script. The generated reports and visualizations will be saved in the "reports" directory.
+"""
+
 from numpy import sqrt
 from sklearn.model_selection import cross_val_predict, cross_val_score
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
